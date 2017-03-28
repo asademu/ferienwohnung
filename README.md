@@ -3,4 +3,7 @@
 so viele arrays
 zu viele methoden
 zu wenig wissen
-blablabla
+
+meine natur ist zum scheitern verurteilt
+ich werde einsam und ungeliebt dahinscheiden
+
