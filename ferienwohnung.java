@@ -3,7 +3,7 @@
   * Beschreibung
   *
   * @version 1.0 vom 24.03.2017
-  * @author 
+  * @author Test 
   */
   
 import java.util.*;
