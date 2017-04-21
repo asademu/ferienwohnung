@@ -3,7 +3,7 @@
   * Beschreibung
   *
   * @version 1.0 vom 24.03.2017
-  * @author Test 
+  * @author 
   */
   
 import java.util.*;
@@ -53,7 +53,12 @@ public class ferienwohnung {
         break;
       default: 
         
-    } // end of switch 
+    } // end of switch
+     
   } // end of main
+  
+    public static void getBuchung(int date, int wohnung) {
+    
+    }
 
 } // end of class ferienwohnung
