@@ -8,12 +8,10 @@
   
 import java.util.*;
 public class ferienwohnung {
-  
   public static int kunden(int u_kndnr) {
     u_kndr = u_kndr+1;
     return u_kndr;
   }
-  
   public static void main(String[] args) {
     //Date dt = new Date();
     int wahl, i, kndnr = 0;
