@@ -1,5 +1,5 @@
 # Ferienwohnung
-Ferienwohnungsverwaltung --> Projekte am OSZ-IMT
+Ferienwohnungsverwaltung --> Projekt am OSZ-IMT
 
 Funktionen: 
         - Buchungen auslesen, eintragen und löschen (365 Tage im Jahr)
