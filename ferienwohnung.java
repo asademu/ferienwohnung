@@ -1,3 +1,4 @@
+import java.io.*;
 /**
  * Created by jhasse on 26.04.2017.
  */
@@ -115,15 +116,101 @@ public class ferienwohnung {
         return u_kategorie;
     }
 
-    public static void menu()   {
+    public static int mainmenu(int wahl) {
+        System.out.println("\nKundenkartei");
+        System.out.println("Wohnungen");
+        System.out.println("Termine");
+        System.out.println("Statistiken");
+        System.out.println("Beenden");
+
+        wahl = Tastatur.liesInt();
+        return wahl;
+    }
+
+    public static int kundenmenu(int wahl2)   {
         System.out.println("\nNeukunde (2)");
         System.out.println("Ausgabe (3)");
         System.out.println("Suche (4)");
-        System.out.println("Beenden (5)");
+        System.out.println("Hauptmenü (5)");
+
+        wahl2 = Tastatur.liesInt();
+        return wahl2;
+    }
+
+    public static void schreiben(String array[][], String d_name) {
+        File datei = null;
+        FileWriter fileWriter = null;
+        BufferedWriter writer = null;
+
+        try {
+            datei = new File(d_name);
+            fileWriter = new FileWriter(datei);
+            writer = new BufferedWriter(fileWriter);
+
+            writer.write(Integer.toString(array.));
+
+            writer.write("\n");
+
+            for (int h = 0; h < 2; h++) {
+                for (int i = 0; i < 2; i++) {
+                    if (array[h][i] != null) {
+                        writer.write(array[h][i]);
+                        writer.write("\n");
+                    } // end of if
+                    else {
+                        writer.write("\n");
+                    } // end of if-else
+                } // end of for
+            } // end of for
+            writer.close();
+
+        } catch(Exception e) {
+            System.out.println(e);
+        } finally {
+            System.out.println("Schreiben der Daten ist beendet");
+        } // end of try
+    }
+
+    public static String[] lesen(String d_name) {
+        File datei = null;
+        FileReader fileReader = null;
+        BufferedReader reader = null;
+
+        String text[] = null;
+
+        int i = 0;
+        try {
+            datei = new File(d_name);
+            fileReader = new FileReader(d_name);
+            reader = new BufferedReader(fileReader);
+
+            String zeile;
+            zeile = reader.readLine();
+            final int ANZ = Integer.valueOf(zeile);
+            text = new String[ANZ];
+
+            for ( i = 0; i < 4; i++) {
+                zeile = reader.readLine();
+                if (zeile != null) {
+                    text[i] = zeile;
+                } // end of if
+                else {
+                    System.out.println("Keine Daten in Dateizeile: " + i);
+                    text[i] = null;
+                } // end of if-else
+            } // end of for
+            reader.close();
+        } catch(Exception e) {
+            System.out.println("Dateifehler: " + e);
+        } finally {
+            System.out.println("Lesen der Daten ist beendet");
+        } // end of try
+
+        return text;
     }
 
     public static void main(String[] args) {
-        int wahl, i = 0;
+        int wahl = 0, wahl2 = 0, i = 0;
         final int WOHNANZ = 10, WOHNATTR = 2, KANZ = 50, KATTR = 3;
 
         String kategorie[][] = new String[WOHNANZ][WOHNATTR];
@@ -132,35 +219,41 @@ public class ferienwohnung {
         System.out.println("Arraysize: "+kunden.length);
 
         kategorie = ferienwohnung.wohnung(kategorie, WOHNANZ, WOHNATTR);
-
         do {
+            wahl = ferienwohnung.mainmenu(wahl);
 
-            //Beginn Menüauswahl
-            ferienwohnung.menu();
-            wahl = Tastatur.liesInt();
             switch (wahl) {
-                case 1: //Verfügbarkeit einer Wohnung zu Tag oder Zeitraum
-
+                case 1: //Kundenkarteimenü
+                    do {
+                        wahl2 = ferienwohnung.kundenmenu(wahl2);
+                        switch (wahl2) {
+                            case 1: //
+                                kunden = ferienwohnung.neukunde(kunden, KANZ, KATTR);
+                                System.out.println("Array size: " + kunden.length);
+                                break;
+                            case 2: //
+                                ferienwohnung.allekunden(kunden, KATTR);
+                                break;
+                            case 3: //
+                                ferienwohnung.kusuche(kunden, KATTR);
+                                break;
+                            case 4: //
+                                kunden = ferienwohnung.kuedit(kunden, KATTR);
+                                break;
+                            case 5:
+                                break;
+                            default:
+                                System.out.println("Fehleingabe!");
+                        }
+                    } while (wahl2 != 5); // end of do-while
                     break;
-                case 2: //
-                    kunden = ferienwohnung.neukunde(kunden, KANZ, KATTR);
-                    System.out.println("Array size: "+kunden.length);
-                    break;
-                case 3: //
-                    ferienwohnung.allekunden(kunden, KATTR);
-                    break;
-                case 4: //
-                    ferienwohnung.kusuche(kunden, KATTR);
-                    break;
-                case 5: //
-                    kunden = ferienwohnung.kuedit(kunden, KATTR);
-                    break;
-                case 6:
+                case 5: //Beenden
                     break;
                 default:
-                    System.out.println("Fehleingabe!");
+                    System.out.print("Fehleingabe!");
             }
-        } while (wahl != 6); // end of do-while
+        } while (wahl != 5);
+
     } // end of main
 
 } // end of class ferienwohnung
