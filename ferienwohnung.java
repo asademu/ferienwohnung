@@ -272,7 +272,7 @@ public class ferienwohnung {
         return gefunden;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) { //main of everything
         String kundenDateiname = "Kundenkartei.txt";    //Variablendeklaration
         String wohnungDateiname = "Wohnungskartei.txt";
         int wahlMain = 0, i = 0, schalt = 0, rest, kalendertag, KT;
