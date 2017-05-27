@@ -20,8 +20,8 @@ public class Termin {
   
     System.out.print("\nGeben Sie das Jahr ein : ");
     jahr = Tastatur.liesInt();
-    if (jahr < KT) {
-      System.out.println("Das Jahr liegt zu weit zurück!");
+    if (jahr < KT || jahr > KT + 10) {
+      System.out.println("Das Jahr ist ungültig!");
     } // end of if
     
     System.out.print("\nGeben Sie den Monat ein (1 - 12): ");
