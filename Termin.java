@@ -30,11 +30,30 @@ public class Termin {
       System.out.println("Fehlerhafte Eingabe!");  
     } // end of if
     
-    System.out.print("Geben Sie den Tag ein (1 - 30/31): ");
+    System.out.print("Geben Sie den Tag ein: ");
     tag = Tastatur.liesInt();
-    if (tag > 31) {
-      System.out.println("Fehlerhafte Eingabe!");
-    } // end of if
+    switch (monat) {
+      case 4  :
+      case 6  :
+      case 9  :
+      case 11 : 
+      if (tag < 1 || tag > 30) {
+        System.out.println("Fehlerhafte Eingabe!");
+      } // end of if
+      
+      break;
+      case 2 : 
+      if (tag < 1 || tag > 28 + schalt) {
+        System.out.println("Fehlerhafte Eingabe!");
+      } // end of if
+      
+      break;
+      default: 
+      if (tag < 1 || tag > 31) {
+        System.out.println("Fehlerhafte Eingabe!");
+      } // end of if
+      
+    } // end of switch
     
     rest = jahr % 4;
     if (rest == 0) {
