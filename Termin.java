@@ -10,20 +10,16 @@ import java.util.*;
 
 public class Termin {
 
-  public static void buchung(int datum[][], int BATTR, int KT, String kunden[][]) {
-    int neu = 0, rest, wonum = 0, jahr, monat, tag, kunum, schalt = 0;
-    boolean date = true;
-    int buchen[][] = new int[datum.length + 1][BATTR];
-    for (int i = 0; i < datum.length; i++) {
-      for (int j = 0; j < BATTR; j++) {
-        buchen[i][j] = datum[i][j];
-      } // end of for
-      neu = i;
-    } // end of for
+  public static int[][] buchung(int datum[][], int BATTR, int KT, String kunden[][], int KM, int KD) {
+    int neu = 0, rest, wonum, jahr, monat, tag, kunum, schalt = 0, schalt2 = 0, jahr2, monat2, tag2, katag, katag2;
+    boolean date;
 
-    do {
+    System.out.print("\n"+KD+"."+KM+"."+KT);
+
+    do { //Eingabe des Startdatums
       date = true;
-      System.out.print("\nGeben Sie das Jahr ein: ");
+      System.out.println("Starttermin");
+      System.out.print("Jahr: ");
       jahr = Tastatur.liesInt();
       if (jahr < KT || jahr > KT + 10) {
         System.out.println("Das Jahr ist ungültig!");
@@ -43,12 +39,22 @@ public class Termin {
         System.out.println("Fehlerhafte Eingabe!");
         date = false;
       } // end of if
+        else {
+          if (jahr == KT && monat < KM) {
+              System.out.println("Fehlerhafte Eingabe!");
+              date = false;
+          }
+      }
     } while (date == false);
 
     do {
       date = true;
       System.out.print("Geben Sie den Tag ein: ");
       tag = Tastatur.liesInt();
+
+      if (jahr == KT && monat == KM && tag < KD) {
+         tag = 32;
+      }
       switch (monat) {
         case 4:
         case 6:
@@ -73,14 +79,90 @@ public class Termin {
       } // end of switch
     } while (date == false);
 
+    do { //Eingabe des Enddatums
+      date = true;
+      System.out.println("Endtermin");
+      System.out.print("Jahr: ");
+      jahr2 = Tastatur.liesInt();
+      if (jahr2 < jahr || jahr2 > KT + 10) {
+        System.out.println("Das Jahr ist ungültig!");
+        date = false;
+      } // end of if
+      rest = jahr2 % 4;
+      if (rest == 0) {
+        schalt2 = 1;
+      } // end of if
+    } while (date == false);
+
     do {
+      date = true;
+      System.out.print("\nGeben Sie den Monat ein (1 - 12): ");
+      monat2 = Tastatur.liesInt();
+      if (monat2 > 12 || monat2 < 1 ) {
+        System.out.println("Fehlerhafte Eingabe!");
+        date = false;
+      } // end of if
+      else {
+        if (monat2 < monat && jahr2 >= jahr) {
+          System.out.println("Fehlerhafte Eingabe!");
+          date = false;
+        }
+      }
+    } while (date == false);
+
+    do {
+      date = true;
+      System.out.print("Geben Sie den Tag ein: ");
+      tag2 = Tastatur.liesInt();
+
+      if (jahr2 >= jahr && monat2 >= monat && tag2 < tag) {
+        tag = 32;
+      }
+      switch (monat2) {
+        case 4:
+        case 6:
+        case 9:
+        case 11:
+          if (tag2 < 1 || tag2 > 30) {
+            System.out.println("Fehlerhafte Eingabe!");
+            date = false;
+          } // end of if
+          break;
+        case 2:
+          if (tag2 < 1 || tag2 > 28 + schalt2) {
+            System.out.println("Fehlerhafte Eingabe!");
+            date = false;
+          } // end of if
+          break;
+        default:
+          if (tag2 < 1 || tag2 > 31) {
+            System.out.println("Fehlerhafte Eingabe!");
+            date = false;
+          } // end of if
+      } // end of switch
+    } while (date == false);
+
+    do { //Eingabe der Wohnungsnummer
+      date = true;
       System.out.print("Geben Sie die Wohnungsnummer ein (1 - 10): ");
       wonum = Tastatur.liesInt();
 
       if (wonum < 1 || wonum > 10) {
         System.out.println("Fehlerhafte Eingabe!");
+        date = false;
       }
-    } while (wonum < 1 || wonum > 10);
+      else {
+        for (int i = 0; i < datum.length; i++) {
+          if (datum[i][3] == wonum && datum[i][2] == tag && datum[i][1] == tag && datum[i][0] == tag) {
+            System.out.println("Die gewählte Wohnung ist an diesem Termin bereits belegt.");
+            date = false;
+          } else {
+            System.out.println("Die gewählte Wohnung ist verfügbar.");
+          }
+        }
+      }
+
+    } while (date == false);
 
     do {
       date = true;
@@ -93,16 +175,19 @@ public class Termin {
       }
     } while (date == false);
 
-    if (date == true) {
-        buchen[neu][0] = jahr;
-        buchen[neu][1] = monat;
-        buchen[neu][2] = tag;
-        buchen[neu][3] = wonum;
-        buchen[neu][4] = kunum;
+    katag = Termin.kalendertag(tag, schalt, monat);
+    katag2 = Termin.kalendertag(tag2, schalt2, monat2);
+
+    return buchen;
+  }
+
+  public static void verfuegbar(int datum[][], int jahr, int monat, int tag) {
+    for (int i = 0; i < datum.length; i++) {
+
     }
   }
 
-  public static void kalendertag(int tag, int schalt, int monat) {
+  public static int kalendertag(int tag, int schalt, int monat) {
     int kalendertag = 0;
     switch (monat) {
       case 1 : 
@@ -144,5 +229,6 @@ public class Termin {
       default: 
         
     } // end of switch
+    return kalendertag;
   }
 }  

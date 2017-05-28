@@ -1,3 +1,5 @@
+import sun.awt.geom.AreaOp;
+
 import java.io.*;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -107,8 +109,13 @@ public class ferienwohnung {
         return wahl;
     }
 
-    public static void buchungmenu(int datum[][], int BATTR, int KT, String kunden[][])   {
+    public static void buchungmenu(int BATTR, int KT, String kunden[][], String sdatum[][], String dname, int KM, int KD)   {
+        final int KATAGE = 366, WOANZ = 10;
         int wahlBuchung = 0;
+
+        int belegungWohnung[][] = new int[WOANZ][KATAGE];
+
+
         do {
             System.out.println("\nBuchung tätigen         (1)");
             System.out.println("Verfügbarkeit prüfen    (2)");
@@ -118,7 +125,9 @@ public class ferienwohnung {
 
             switch (wahlBuchung) {
                 case 1:
-                    Termin.buchung(datum, BATTR, KT, kunden);
+                    belegungWohnung = Termin.buchung(belegungWohnung, BATTR, KT, kunden, KM, KD);
+                    sdatum = ferienwohnung.intToString(belegungWohnung);
+                    ferienwohnung.schreiben(sdatum, dname);
                     break;
                 case 2:
                     break;
@@ -271,6 +280,28 @@ public class ferienwohnung {
         return wohnung;
     }
 
+    public static String[][] intToString(int buchen[][]) {
+        int ANZ1 = buchen.length, ANZ2 = buchen[0].length;
+        String sbuchen[][] = new String[ANZ1][ANZ2];
+        for (int i = 0; i < ANZ1; i++) {
+            for (int j = 0; j < ANZ2; j++) {
+                sbuchen[i][j] = String.valueOf(buchen[i][j]);
+            }
+        }
+        return sbuchen;
+    }
+
+    public static int[][] stringToInt(String sbuchen[][]) {
+        int ANZ1 = sbuchen.length, ANZ2 = sbuchen[0].length;
+        int buchen[][] = new int[ANZ1][ANZ2];
+        for (int i = 0; i < ANZ1; i++) {
+            for (int j = 0; j < ANZ2; j++) {
+                buchen[i][j] = Integer.parseInt(sbuchen[i][j]);
+            }
+        }
+        return buchen;
+    }
+
     public static void verzeichnislesen() {
         File datei = new File(".\\");   //in demselben Verzeichnis wie die Programmdateien
         String dateienVerzeichnisse[] = datei.list();
@@ -302,7 +333,7 @@ public class ferienwohnung {
         String wohnungDateiname = "Wohnungskartei.txt";
         String buchungDateiname = "Buchungskartei.txt";
         int wahlMain = 0;
-        final int KANZ = 50, KATTR = 3, WOHNANZ = 10, WOHNATTR = 2, BUCHATTR = 5;
+        final int KANZ = 50, KATTR = 3, WOHNANZ = 10, WOHNATTR = 2, BUCHATTR = 4;
 
         File kuka = new File(kundenDateiname);
         File woka = new File(wohnungDateiname);
@@ -313,9 +344,9 @@ public class ferienwohnung {
         String kunden[][] = new String[0][KATTR];   //0 Kunden, falls noch keine vorhanden; Array wird mit jedem Kunden erweitert
 
         GregorianCalendar systemdatum = new GregorianCalendar();
-        int datum[][] = new int[0][BUCHATTR]; //1. Dim.: Buchungsnummer, 2. Dim.: 1. Jahr, 2. Monat, 3. Tag, 4. Wohnung, 5. Kundennummer
-
         int KT = systemdatum.get(Calendar.YEAR);
+        int KM = systemdatum.get(Calendar.MONTH) + 1;
+        int KD = systemdatum.get(Calendar.DAY_OF_MONTH);
 
         if (woka.exists()) { //prüft, ob bereits eine Wohnungskartei besteht
           swohnung = ferienwohnung.lesen(wohnungDateiname); //liest die Werte der txtdatei aus
@@ -331,6 +362,11 @@ public class ferienwohnung {
             kunden = ferienwohnung.lesen(kundenDateiname); //ersetzt Array, falls Datei existent
         }
 
+        if (buka.exists()) {
+            sdatum = ferienwohnung.lesen(buchungDateiname);
+            datum = ferienwohnung.stringToInt(sdatum);
+        }
+
         System.out.println("Kundenbestand: "+kunden.length);
 
         do {    //Start des Hauptmenüs
@@ -344,7 +380,7 @@ public class ferienwohnung {
                     Wohnung.wohnungmenu(wohnung, swohnung, WOHNANZ, wohnungDateiname);
                     break;
                 case 3: //Buchungsmenü
-                    ferienwohnung.buchungmenu(datum, BUCHATTR, KT, kunden);
+                    ferienwohnung.buchungmenu(BUCHATTR, KT, kunden, sdatum, buchungDateiname, KM, KD);
                     break;
                 case 4: //Statistiken
                     break;
