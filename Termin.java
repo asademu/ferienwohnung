@@ -178,6 +178,10 @@ public class Termin {
     katag = Termin.kalendertag(tag, schalt, monat);
     katag2 = Termin.kalendertag(tag2, schalt2, monat2);
 
+    for (int i = katag; i <= katag2; i++) {
+      datum[wonum][i] = kunum;
+    }
+
     return buchen;
   }
 
@@ -191,7 +195,7 @@ public class Termin {
     int kalendertag = 0;
     switch (monat) {
       case 1 : 
-        kalendertag=0+tag;        
+        kalendertag = tag;
         break;
       case 2 : 
         kalendertag=31+tag+schalt;        

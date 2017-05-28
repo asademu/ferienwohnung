@@ -110,7 +110,7 @@ public class ferienwohnung {
     }
 
     public static void buchungmenu(int BATTR, int KT, String kunden[][], String sdatum[][], String dname, int KM, int KD)   {
-        final int KATAGE = 366, WOANZ = 10;
+        final int KATAGE = 367, WOANZ = 10;
         int wahlBuchung = 0;
 
         int belegungWohnung[][] = new int[WOANZ][KATAGE];
