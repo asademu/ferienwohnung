@@ -107,6 +107,31 @@ public class ferienwohnung {
         return wahl;
     }
 
+    public static void buchungmenu(int datum[][], int BATTR, int KT, String kunden[][])   {
+        int wahlBuchung = 0;
+        do {
+            System.out.println("\nBuchung tätigen         (1)");
+            System.out.println("Verfügbarkeit prüfen    (2)");
+            System.out.println("Buchungen anzeigen      (3)");
+            System.out.println("Hauptmenü               (4)");
+            wahlBuchung = Tastatur.liesInt();
+
+            switch (wahlBuchung) {
+                case 1:
+                    Termin.buchung(datum, BATTR, KT, kunden);
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                default:
+                    System.out.print("Fehleingabe");
+            }
+        } while (wahlBuchung != 4);
+    }
+
     public static void kundenmenu(String kunden[][], int KANZ, int KATTR, String kundenDateiname)   {
         int wahlKunden = 0;
         do {
@@ -275,11 +300,13 @@ public class ferienwohnung {
     public static void main(String[] args) { //main of everything
         String kundenDateiname = "Kundenkartei.txt";    //Variablendeklaration
         String wohnungDateiname = "Wohnungskartei.txt";
-        int wahlMain = 0, i = 0, schalt = 0, rest, kalendertag, KT;
+        String buchungDateiname = "Buchungskartei.txt";
+        int wahlMain = 0;
         final int KANZ = 50, KATTR = 3, WOHNANZ = 10, WOHNATTR = 2, BUCHATTR = 5;
 
         File kuka = new File(kundenDateiname);
         File woka = new File(wohnungDateiname);
+        File buka = new File(buchungDateiname);
 
         double wohnung[][] = new double[WOHNANZ][WOHNATTR]; //Deklaration der Wohnungsarrays
         String swohnung[][] = new String[WOHNANZ][WOHNATTR];    //double zur Weiterverwendung, String zum Abspeichern
@@ -288,7 +315,7 @@ public class ferienwohnung {
         GregorianCalendar systemdatum = new GregorianCalendar();
         int datum[][] = new int[0][BUCHATTR]; //1. Dim.: Buchungsnummer, 2. Dim.: 1. Jahr, 2. Monat, 3. Tag, 4. Wohnung, 5. Kundennummer
 
-        KT = systemdatum.get(Calendar.YEAR);
+        int KT = systemdatum.get(Calendar.YEAR);
 
         if (woka.exists()) { //prüft, ob bereits eine Wohnungskartei besteht
           swohnung = ferienwohnung.lesen(wohnungDateiname); //liest die Werte der txtdatei aus
@@ -317,7 +344,7 @@ public class ferienwohnung {
                     Wohnung.wohnungmenu(wohnung, swohnung, WOHNANZ, wohnungDateiname);
                     break;
                 case 3: //Buchungsmenü
-                    Termin.kalendertag();
+                    ferienwohnung.buchungmenu(datum, BUCHATTR, KT, kunden);
                     break;
                 case 4: //Statistiken
                     break;

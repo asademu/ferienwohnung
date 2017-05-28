@@ -10,59 +10,97 @@ import java.util.*;
 
 public class Termin {
 
-  public static void buchung(int datum[][], String kunden[][], String wohnung[][], int BATTR) {
-    int buchen[][] = new int[datum.length+1][BATTR];
+  public static void buchung(int datum[][], int BATTR, int KT, String kunden[][]) {
+    int neu = 0, rest, wonum = 0, jahr, monat, tag, kunum, schalt = 0;
+    boolean date = true;
+    int buchen[][] = new int[datum.length + 1][BATTR];
     for (int i = 0; i < datum.length; i++) {
       for (int j = 0; j < BATTR; j++) {
         buchen[i][j] = datum[i][j];
       } // end of for
+      neu = i;
     } // end of for
-  
-    System.out.print("\nGeben Sie das Jahr ein : ");
-    jahr = Tastatur.liesInt();
-    if (jahr < KT || jahr > KT + 10) {
-      System.out.println("Das Jahr ist ungültig!");
-    } // end of if
-    
-    System.out.print("\nGeben Sie den Monat ein (1 - 12): ");
-    monat = Tastatur.liesInt();
-    if (monat > 12 || monat < 1) {
-      System.out.println("Fehlerhafte Eingabe!");  
-    } // end of if
-    
-    System.out.print("Geben Sie den Tag ein: ");
-    tag = Tastatur.liesInt();
-    switch (monat) {
-      case 4  :
-      case 6  :
-      case 9  :
-      case 11 : 
-      if (tag < 1 || tag > 30) {
-        System.out.println("Fehlerhafte Eingabe!");
+
+    do {
+      date = true;
+      System.out.print("\nGeben Sie das Jahr ein: ");
+      jahr = Tastatur.liesInt();
+      if (jahr < KT || jahr > KT + 10) {
+        System.out.println("Das Jahr ist ungültig!");
+        date = false;
       } // end of if
-      
-      break;
-      case 2 : 
-      if (tag < 1 || tag > 28 + schalt) {
-        System.out.println("Fehlerhafte Eingabe!");
+      rest = jahr % 4;
+      if (rest == 0) {
+        schalt = 1;
       } // end of if
-      
-      break;
-      default: 
-      if (tag < 1 || tag > 31) {
+    } while (date == false);
+
+    do {
+      date = true;
+      System.out.print("\nGeben Sie den Monat ein (1 - 12): ");
+      monat = Tastatur.liesInt();
+      if (monat > 12 || monat < 1) {
         System.out.println("Fehlerhafte Eingabe!");
+        date = false;
       } // end of if
-      
-    } // end of switch
-    
-    rest = jahr % 4;
-    if (rest == 0) {
-      schalt = 1;
-    } // end of if
-    
-    System.out.print("Geben sie die Wohnungsnummer ein (1 - 10: ");
-    
-  }  
+    } while (date == false);
+
+    do {
+      date = true;
+      System.out.print("Geben Sie den Tag ein: ");
+      tag = Tastatur.liesInt();
+      switch (monat) {
+        case 4:
+        case 6:
+        case 9:
+        case 11:
+          if (tag < 1 || tag > 30) {
+            System.out.println("Fehlerhafte Eingabe!");
+            date = false;
+          } // end of if
+          break;
+        case 2:
+          if (tag < 1 || tag > 28 + schalt) {
+            System.out.println("Fehlerhafte Eingabe!");
+            date = false;
+          } // end of if
+          break;
+        default:
+          if (tag < 1 || tag > 31) {
+            System.out.println("Fehlerhafte Eingabe!");
+            date = false;
+          } // end of if
+      } // end of switch
+    } while (date == false);
+
+    do {
+      System.out.print("Geben Sie die Wohnungsnummer ein (1 - 10): ");
+      wonum = Tastatur.liesInt();
+
+      if (wonum < 1 || wonum > 10) {
+        System.out.println("Fehlerhafte Eingabe!");
+      }
+    } while (wonum < 1 || wonum > 10);
+
+    do {
+      date = true;
+      System.out.print("Geben Sie die Kundennummer ein: ");
+      kunum = Tastatur.liesInt();
+
+      if (kunum > kunden.length || kunum < 1) {
+        System.out.println("Fehlerhafte Eingabe!");
+        date = false;
+      }
+    } while (date == false);
+
+    if (date == true) {
+        buchen[neu][0] = jahr;
+        buchen[neu][1] = monat;
+        buchen[neu][2] = tag;
+        buchen[neu][3] = wonum;
+        buchen[neu][4] = kunum;
+    }
+  }
 
   public static void kalendertag(int tag, int schalt, int monat) {
     int kalendertag = 0;
