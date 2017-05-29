@@ -109,12 +109,8 @@ public class ferienwohnung {
         return wahl;
     }
 
-    public static void buchungmenu(int BATTR, int KT, String kunden[][], String sdatum[][], String dname, int KM, int KD)   {
-        final int KATAGE = 367, WOANZ = 10;
+    public static void buchungmenu(int BATTR, int KT, String kunden[][], String sbelegung[][], String dname, int KM, int KD, int belegung[][])   {
         int wahlBuchung = 0;
-
-        int belegungWohnung[][] = new int[WOANZ][KATAGE];
-
 
         do {
             System.out.println("\nBuchung tätigen         (1)");
@@ -125,13 +121,15 @@ public class ferienwohnung {
 
             switch (wahlBuchung) {
                 case 1:
-                    belegungWohnung = Termin.buchung(belegungWohnung, BATTR, KT, kunden, KM, KD);
-                    sdatum = ferienwohnung.intToString(belegungWohnung);
-                    ferienwohnung.schreiben(sdatum, dname);
+                    belegung = Termin.buchung(belegung, KT, kunden, KM, KD);
+                    sbelegung = ferienwohnung.intToString(belegung);
+                    ferienwohnung.schreiben(sbelegung, dname);
                     break;
                 case 2:
+                    Termin.verfuegbarDatum(belegung, KT, KM, KD);
                     break;
                 case 3:
+                    Termin.zeigBuchungWohnung(belegung);
                     break;
                 case 4:
                     break;
@@ -347,6 +345,9 @@ public class ferienwohnung {
         int KT = systemdatum.get(Calendar.YEAR);
         int KM = systemdatum.get(Calendar.MONTH) + 1;
         int KD = systemdatum.get(Calendar.DAY_OF_MONTH);
+        final int KATAGE = 367, WOANZ = 10;
+        int belegung[][] = new int[WOANZ][KATAGE];
+        String sbelegung[][] = new String[WOANZ][KATAGE];
 
         if (woka.exists()) { //prüft, ob bereits eine Wohnungskartei besteht
           swohnung = ferienwohnung.lesen(wohnungDateiname); //liest die Werte der txtdatei aus
@@ -363,8 +364,8 @@ public class ferienwohnung {
         }
 
         if (buka.exists()) {
-            sdatum = ferienwohnung.lesen(buchungDateiname);
-            datum = ferienwohnung.stringToInt(sdatum);
+            sbelegung = ferienwohnung.lesen(buchungDateiname);
+            belegung = ferienwohnung.stringToInt(sbelegung);
         }
 
         System.out.println("Kundenbestand: "+kunden.length);
@@ -380,7 +381,7 @@ public class ferienwohnung {
                     Wohnung.wohnungmenu(wohnung, swohnung, WOHNANZ, wohnungDateiname);
                     break;
                 case 3: //Buchungsmenü
-                    ferienwohnung.buchungmenu(BUCHATTR, KT, kunden, sdatum, buchungDateiname, KM, KD);
+                    ferienwohnung.buchungmenu(BUCHATTR, KT, kunden, sbelegung, buchungDateiname, KM, KD, belegung);
                     break;
                 case 4: //Statistiken
                     break;
