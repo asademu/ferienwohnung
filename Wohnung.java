@@ -9,11 +9,9 @@
 
 public class Wohnung {
 
-  public static void outallflats(double wohnung[][], int WOHNANZ) {
-    int i = 0;
-
-    for (i = 0; i < WOHNANZ; i++) {
-      if (i < 9) {
+  public static void outallflats(double wohnung[][], int WOHNANZ) { //Ausgabe aller Wohnungsdetails
+    for (int i = 0; i < WOHNANZ; i++) {
+      if (i < 9) {  //if-else aus Formatierungsgründen
         System.out.println(i + 1 + ".  Wohnung | Preis: " + wohnung[i][0] + " Euro | Größe: " + wohnung[i][1] + " qm");
       } // end of if
       else {
@@ -22,7 +20,7 @@ public class Wohnung {
     } // end of for
   }
 
-  public static void outoneflat(double wohnung[][], int WOHNANZ) {
+  public static void outoneflat(double wohnung[][], int WOHNANZ) {  //Ausgabe einer Wohnung
     int i = 0;
     do {
       System.out.println("Welche Wohnung soll ausgegeben werden? (1 - 10)");
@@ -32,13 +30,13 @@ public class Wohnung {
     System.out.println("Preis: " + wohnung[i][0] + " Euro | Größe: " + wohnung[i][1] + " qm");
   }
 
-  public static void changeflat(double wohnung[][], int WOHNANZ) {
+  public static void changeflat(double wohnung[][], int WOHNANZ) {  //Änderung einer Wohnung
     int i = 0;
     do {
       System.out.println("Welche Wohnung soll geändert werden? (1 - 10)");
       i = Tastatur.liesInt();
       i = i - 1;
-    } while (i < 0 || i >= WOHNANZ); //Eingabe darf nicht kleiner als 0 oder größer als 10 sein
+    } while (i < 0 || i >= WOHNANZ); //Eingabe darf nicht kleiner als 0 oder größer-gleich 10 sein
 
     System.out.println("Geben Sie den neuen Preis ein.");
     System.out.print("Preis: ");
@@ -49,26 +47,26 @@ public class Wohnung {
   }
 
   public static double[][] initflat(double u_wohnung[][], int u_WOHNANZ) {
-    for (int i = 0; i < u_WOHNANZ; i++) {                                                    //Voreinstellungen die jedoch geändert werden k�nnen
-      if (i < 3) {                                                                   //ersten drei Wohnungen
+    for (int i = 0; i < u_WOHNANZ; i++) {                                                    //Voreinstellungen die jedoch geändert werden können
+      if (i < 3) {                                                                   //ersten drei Wohnungen, erste Preisklasse
         u_wohnung[i][0] = 20;
         u_wohnung[i][1] = 15;
       } // end of if
       else {
-        if (i < 5) {                                                                 //nächsten 2 Wohnung
+        if (i < 5) {                                                                 //nächsten 2 Wohnung, zweite Preisklasse
           u_wohnung[i][0] = 30;
           u_wohnung[i][1] = 25;
         } // end of if
-        else {                                                                    //die fehlenden 5 Wohnungen
+        else {                                                                    //die fehlenden 5 Wohnungen, dritte Preisklasse
           u_wohnung[i][0] = 40;
           u_wohnung[i][1] = 35;
         }
       }
     }
-    return u_wohnung;
+    return u_wohnung;                                                         //Rückgabe an die Hauptfunktion
   }
 
-  public static void wohnungmenu(double wohnung[][], String swohnung[][], int WOHNANZ, String wohnungDateiname) {
+  public static void wohnungmenu(double wohnung[][], String swohnung[][], int WOHNANZ, String wohnungDateiname) { //Menüauswahl der Wohnungsoptionen
     int wahl = 0;
     do {
     System.out.println("\nAlle Wohnungen ausgeben     (1)");
@@ -86,8 +84,8 @@ public class Wohnung {
         break;
       case 3:
         Wohnung.changeflat(wohnung, WOHNANZ);
-        swohnung = ferienwohnung.doubleToString(wohnung);
-        ferienwohnung.schreiben(swohnung, wohnungDateiname);
+        swohnung = ferienwohnung.doubleToString(wohnung);     //Double-Array wird zu String-Array konvertiert, um in Textdatei zu schreiben
+        ferienwohnung.schreiben(swohnung, wohnungDateiname);  //speichert die Wohnungs-Daten in einer Textdatei
         break;
       case 4:
         break;

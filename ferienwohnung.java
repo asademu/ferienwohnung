@@ -33,8 +33,8 @@ public class ferienwohnung {
         return u_kunde;
     }
 
-    public static void allekunden(String u_kunden[][], int u_KATTR) { //Ausgabe aller Kunden
-        if (u_kunden.length > 0) {
+    public static void allekunden(String u_kunden[][]) { //Ausgabe aller Kunden
+        if (u_kunden.length > 0) { //nur falls Kunden vorhanden sind
             for (int i = 0; i < u_kunden.length; i++) {
                 System.out.println("\nKundenummer: " + (i + 1));
                 System.out.println(u_kunden[i][0] + ", " + u_kunden[i][1]);
@@ -46,7 +46,7 @@ public class ferienwohnung {
         }
     }
 
-    public static void kusuche(String u_kunden[][], int u_KATTR) {  //Suche nach Kunden durch Teilbegriffe (Vor- und Nachname)
+    public static void kusuche(String u_kunden[][]) {  //Suche nach Kunden durch Teilbegriffe (Vor- und Nachname)
 
         System.out.print("\nSuchbegriff: ");
         String suche = Tastatur.liesString();
@@ -73,7 +73,7 @@ public class ferienwohnung {
         } //end of if
     } //end of method
 
-    public static String[][] kuedit(String u_kunden[][], int u_KATTR) {
+    public static String[][] kuedit(String u_kunden[][]) {
         boolean ex; //Prüfungsvariable
         do {
             System.out.print("Kundenummer: ");  //Auswahl des Kunden
@@ -98,8 +98,8 @@ public class ferienwohnung {
         return u_kunden;
     }
 
-    public static int mainmenu(int wahl) {
-        System.out.println("\nKundenkartei      (1)");
+    public static int mainmenu(int wahl) { //Hauptmenü-Ausgabe
+        System.out.println("\nKundenkartei    (1)");
         System.out.println("Wohnungen       (2)");
         System.out.println("Buchungen       (3)");
         System.out.println("Statistiken     (4)");
@@ -109,9 +109,9 @@ public class ferienwohnung {
         return wahl;
     }
 
-    public static void buchungmenu(int BATTR, int KT, String kunden[][], String sbelegung[][], String dname, int KM, int KD, int belegung[][])   {
+    public static void buchungmenu(int KT, String kunden[][], String sbelegung[][], String dname, int KM, int KD, int belegung[][], double wohnung[][])   {
         int wahlBuchung = 0;
-
+        //Menüauswahl für die Buchungsoptionen
         do {
             System.out.println("\nBuchung tätigen         (1)");
             System.out.println("Verfügbarkeit prüfen    (2)");
@@ -121,7 +121,7 @@ public class ferienwohnung {
 
             switch (wahlBuchung) {
                 case 1:
-                    belegung = Termin.buchung(belegung, KT, kunden, KM, KD);
+                    belegung = Termin.buchung(belegung, KT, kunden, KM, KD, wohnung);
                     sbelegung = ferienwohnung.intToString(belegung);
                     ferienwohnung.schreiben(sbelegung, dname);
                     break;
@@ -140,7 +140,7 @@ public class ferienwohnung {
     }
 
     public static void kundenmenu(String kunden[][], int KANZ, int KATTR, String kundenDateiname)   {
-        int wahlKunden = 0;
+        int wahlKunden = 0; //Menüauswahl der Kundenoptionen
         do {
             System.out.println("\nNeukunde      (1)");
             System.out.println("Ausgabe     (2)");
@@ -152,18 +152,18 @@ public class ferienwohnung {
             switch (wahlKunden) {
                 case 1: //
                     kunden = ferienwohnung.neukunde(kunden, KANZ, KATTR);
-                    System.out.println("Array size: " + kunden.length);
-                    ferienwohnung.schreiben(kunden, kundenDateiname);
+                    System.out.println("Array size: " + kunden.length); //Nachweis zur Arrayerweiterung
+                    ferienwohnung.schreiben(kunden, kundenDateiname);   //schreiben der Textdatei nach neuem Kunden
                     break;
                 case 2: //
-                    ferienwohnung.allekunden(kunden, KATTR);
+                    ferienwohnung.allekunden(kunden);
                     break;
                 case 3: //
-                    ferienwohnung.kusuche(kunden, KATTR);
+                    ferienwohnung.kusuche(kunden);
                     break;
                 case 4: //
-                    kunden = ferienwohnung.kuedit(kunden, KATTR);
-                    ferienwohnung.schreiben(kunden, kundenDateiname);
+                    kunden = ferienwohnung.kuedit(kunden);
+                    ferienwohnung.schreiben(kunden, kundenDateiname);   //schreiben der Textdatei nach Veränderung der Stammdaten
                     break;
                 case 5:
                     break;
@@ -309,7 +309,7 @@ public class ferienwohnung {
                 System.out.println(dateienVerzeichnisse[i]);
             }
         }
-    }
+    } //ungenutzt
 
     public static boolean dateiNamenPruefung(String dname) {
         File datei = new File(".\\");
@@ -324,14 +324,14 @@ public class ferienwohnung {
             }
         }
         return gefunden;
-    }
+    } //ungenutzt
 
     public static void main(String[] args) { //main of everything
         String kundenDateiname = "Kundenkartei.txt";    //Variablendeklaration
         String wohnungDateiname = "Wohnungskartei.txt";
         String buchungDateiname = "Buchungskartei.txt";
         int wahlMain = 0;
-        final int KANZ = 50, KATTR = 3, WOHNANZ = 10, WOHNATTR = 2, BUCHATTR = 4;
+        final int KANZ = 50, KATTR = 3, WOHNANZ = 10, WOHNATTR = 2, KATAGE = 367, WOANZ = 10;
 
         File kuka = new File(kundenDateiname);
         File woka = new File(wohnungDateiname);
@@ -341,13 +341,12 @@ public class ferienwohnung {
         String swohnung[][] = new String[WOHNANZ][WOHNATTR];    //double zur Weiterverwendung, String zum Abspeichern
         String kunden[][] = new String[0][KATTR];   //0 Kunden, falls noch keine vorhanden; Array wird mit jedem Kunden erweitert
 
-        GregorianCalendar systemdatum = new GregorianCalendar();
-        int KT = systemdatum.get(Calendar.YEAR);
-        int KM = systemdatum.get(Calendar.MONTH) + 1;
-        int KD = systemdatum.get(Calendar.DAY_OF_MONTH);
-        final int KATAGE = 367, WOANZ = 10;
-        int belegung[][] = new int[WOANZ][KATAGE];
-        String sbelegung[][] = new String[WOANZ][KATAGE];
+        GregorianCalendar systemdatum = new GregorianCalendar();    //Kalendarfunktion um das aktuelle Datum festzulegen
+        int KT = systemdatum.get(Calendar.YEAR);                    //aktuelles Kalenderjahr
+        int KM = systemdatum.get(Calendar.MONTH) + 1;               //aktueller Kalendermonat
+        int KD = systemdatum.get(Calendar.DAY_OF_MONTH);            //aktueller Tag des Monats
+        int belegung[][] = new int[WOANZ][KATAGE];                  //Integer-Array zur Verwendung
+        String sbelegung[][] = new String[WOANZ][KATAGE];           //String-Array zur Abspeicherung
 
         if (woka.exists()) { //prüft, ob bereits eine Wohnungskartei besteht
           swohnung = ferienwohnung.lesen(wohnungDateiname); //liest die Werte der txtdatei aus
@@ -363,12 +362,12 @@ public class ferienwohnung {
             kunden = ferienwohnung.lesen(kundenDateiname); //ersetzt Array, falls Datei existent
         }
 
-        if (buka.exists()) {
-            sbelegung = ferienwohnung.lesen(buchungDateiname);
-            belegung = ferienwohnung.stringToInt(sbelegung);
+        if (buka.exists()) {    //Prüfung bei Programmstart, ob die Buchungskartei besteht
+            sbelegung = ferienwohnung.lesen(buchungDateiname);  //liest Daten aus der Textdatei aus und speichert sie in einem String-Array
+            belegung = ferienwohnung.stringToInt(sbelegung);    //Übertragung der Inhalte des String-Arrays in ein Integer-Array
         }
 
-        System.out.println("Kundenbestand: "+kunden.length);
+        System.out.println("Kundenbestand: "+kunden.length);    //Prüfausgabe des aktiven Kundenbestands
 
         do {    //Start des Hauptmenüs
             wahlMain = ferienwohnung.mainmenu(wahlMain);
@@ -381,9 +380,10 @@ public class ferienwohnung {
                     Wohnung.wohnungmenu(wohnung, swohnung, WOHNANZ, wohnungDateiname);
                     break;
                 case 3: //Buchungsmenü
-                    ferienwohnung.buchungmenu(BUCHATTR, KT, kunden, sbelegung, buchungDateiname, KM, KD, belegung);
+                    ferienwohnung.buchungmenu(KT, kunden, sbelegung, buchungDateiname, KM, KD, belegung, wohnung);
                     break;
                 case 4: //Statistiken
+                    Statistiken.statistikenmenu(belegung, wohnung);
                     break;
                 case 5: //Beenden
                     break;
