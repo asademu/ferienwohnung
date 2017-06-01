@@ -5,7 +5,9 @@
   * @version 1.0 vom 11.05.2017
   * @author 
 */
-
+import java.text.SimpleDateFormat;
+import java.time.MonthDay;
+import java.util.Calendar;
 import java.util.*;
 
 public class Termin {
@@ -14,19 +16,19 @@ public class Termin {
     int rest, wonum, jahr, monat, tag, kunum, schalt = 0, schalt2 = 0, jahr2, monat2, tag2, katag, katag2;
     boolean date;
     //teilweise doppelte Variablen, da Start- und Enddatum gefordert werden
-    System.out.println("\n"+KD+"."+KM+"."+KT); //Ausgabe des aktuellen Systemdatums zum optischen Vergleich
+    System.out.println("\nheutiges Datum: "+KD+"."+KM+"."+KT); //Ausgabe des aktuellen Systemdatums zum optischen Vergleich
 
     //System.out.println("\n"+datum.length+" "+datum[0].length);
     do { //Eingabe des Startdatums (Jahr)
       date = true;  //wird am Anfang der Schleife zurückgesetzt, um Endlosschleife zu verhindern
-      System.out.println("Starttermin");
+      System.out.println("\nEingabe des Starttermins");
       System.out.print("Jahr: ");
       jahr = Tastatur.liesInt();
-      if (jahr < KT || jahr > KT) {  //kann nicht in der Vergangenheit gebucht werden und nur in naher Zukunft
+      if (jahr < KT || jahr > KT) {  //kann nicht in der Vergangenheit gebucht werden und nur in naher Zukunft (selbes Jahr wie System)
         System.out.println("Das Jahr ist ungültig!");
         date = false;
       } // end of if
-      rest = jahr % 4;  //Berechnung, ob ein Schaltjahr ist
+      rest = jahr % 4;  //Berechnung, ob es ein Schaltjahr ist
       if (rest == 0) {
         schalt = 1;
       } // end of if
@@ -82,7 +84,7 @@ public class Termin {
 
     do { //Eingabe des Enddatums
       date = true;
-      System.out.println("Endtermin");
+      System.out.println("\nEingabe des Endtermins");
       System.out.print("Jahr: ");
       jahr2 = Tastatur.liesInt();
       if (jahr2 < jahr || jahr2 > KT) { //darf nicht zu weit in der Zukunft oder vor dem Startjahr sein
@@ -97,7 +99,7 @@ public class Termin {
 
     do {
       date = true;
-      System.out.print("\nGeben Sie den Monat ein (1 - 12): ");
+      System.out.print("Geben Sie den Monat ein (1 - 12): ");
       monat2 = Tastatur.liesInt();
       if (monat2 > 12 || monat2 < 1 ) {                             //nicht vor Startmonat
         System.out.println("Fehlerhafte Eingabe!");
@@ -206,7 +208,7 @@ public class Termin {
 
     do {  //Eingabe des Jahres
       date = true;
-      System.out.print("Jahr: ");
+      System.out.print("\nJahr: ");
       jahr = Tastatur.liesInt();
       if (jahr < KT || jahr > KT + 10) {
         System.out.println("Das Jahr ist ungültig!");
@@ -267,7 +269,7 @@ public class Termin {
     } while (date == false);
 
     katag = Termin.kalendertag(tag, schalt, monat); //Umrechnung des Datums in den Kalendertag
-    System.out.println(tag+"."+monat+"."+jahr);
+    System.out.println("\n"+tag+"."+monat+"."+jahr+"\n");
 
     for (int i = 0; i < belegung.length; i++) {   //Ausgabe welche Wohnungen belegt bzw. frei sind
       if (belegung[i][katag] != 0) {
@@ -280,9 +282,13 @@ public class Termin {
   }
 
   public static void zeigBuchungWohnung(int belegung[][]) {   //Ausgabe der Termine nach Eingabe der Wohnungsnummer
+    Calendar calendar = Calendar.getInstance();   //Deklarieren einer neuen Kalenderinstanz
+    SimpleDateFormat format1 = new SimpleDateFormat("dd.MM.yyyy");  //Erstellen eines neuen Formats für das Datum
+    String formatiert;
+    int dayOfYear;
     boolean error = false;
     do {
-      System.out.print("Wohnungsnummer: ");
+      System.out.print("\nWohnungsnummer: ");
       int wonu = Tastatur.liesInt();
 
       if (wonu < 1 || wonu > belegung.length) {               //Prüfung der Eingabe auf Korrektheit
@@ -292,7 +298,10 @@ public class Termin {
       else {
         for (int i = 0; i < belegung[0].length; i++) {
           if (belegung[wonu-1][i] != 0) {                   //wenn das Feld nicht leer ist, wurde zu diesem Datum gebucht
-            System.out.println("Gebucht am " + i + ". Kalendertag von Kundennummer " + belegung[wonu-1][i]);
+            dayOfYear = i;
+            calendar.set(Calendar.DAY_OF_YEAR, dayOfYear);  //setzt den Kalendertag als Datum
+            formatiert = format1.format(calendar.getTime());  //formatiert das Datum in das oben deklarierte Format
+            System.out.println("Gebucht am " + formatiert + " von Kundennummer " + belegung[wonu-1][i]);
           }
         }
       }

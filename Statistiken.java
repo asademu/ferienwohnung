@@ -70,7 +70,7 @@ public class Statistiken {
             System.out.println("Auslastung aller Ferienwohnungen (2)");
             System.out.println("Einnahmen einer Ferienwohnung    (3)");
             System.out.println("Einnahmen aller Ferienwohnungen  (4)");
-            System.out.println("Zum Hauptmenue  (5)");
+            System.out.println("Hauptmenü                        (5)");
             wahl = Tastatur.liesInt();
 
             switch (wahl) {

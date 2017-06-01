@@ -142,7 +142,7 @@ public class ferienwohnung {
     public static void kundenmenu(String kunden[][], int KANZ, int KATTR, String kundenDateiname)   {
         int wahlKunden = 0; //Menüauswahl der Kundenoptionen
         do {
-            System.out.println("\nNeukunde      (1)");
+            System.out.println("\nNeukunde    (1)");
             System.out.println("Ausgabe     (2)");
             System.out.println("Suche       (3)");
             System.out.println("Bearbeiten  (4)");
@@ -204,7 +204,6 @@ public class ferienwohnung {
         } catch(Exception e) {
             System.out.println(e);
         } finally {
-            System.out.println("Schreiben der Daten ist beendet");
         } // end of try
     }
 
@@ -221,12 +220,12 @@ public class ferienwohnung {
             String zeile;
 
             zeile = reader.readLine();
-            System.out.println("Zeile: "+zeile);
+            //System.out.println("Zeile: "+zeile);
             final int ANZDIM1 = Integer.valueOf(zeile);
-            System.out.println("anzdim: "+ANZDIM1);
+            //System.out.println("anzdim: "+ANZDIM1);
 
             zeile = reader.readLine();
-            System.out.println("Zeile: "+zeile);
+            //System.out.println("Zeile: "+zeile);
             final int ANZDIM2 = Integer.valueOf(zeile);
             text = new String[ANZDIM1][ANZDIM2];
 
@@ -250,7 +249,7 @@ public class ferienwohnung {
             System.out.println("Dateifehler: " + e);
 
         } finally {
-            System.out.println("Lesen der Daten ist beendet");
+            //System.out.println("Lesen der Daten ist beendet");
         } // end of try
 
         return text;
