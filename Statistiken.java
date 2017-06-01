@@ -11,7 +11,7 @@ public class Statistiken {
     int wohnungsnummer = 0, zaehler = 0;
     double ergebnis = 0;
     do {
-        System.out.println("Bitte geben Sie die Wohnungsnummer an: ");
+        System.out.print("Bitte geben Sie die Wohnungsnummer an: ");
         wohnungsnummer = Tastatur.liesInt()-1;
     } while (wohnungsnummer < 0 || wohnungsnummer >= datum.length); //Probe, ob Wohnungsnummer existiert
     for (int i = 0; i < datum[0].length; i++) {
@@ -20,7 +20,7 @@ public class Statistiken {
       }
     }
     ergebnis = 100 * zaehler / 365; //Prozentrechnung
-    System.out.println("Prozentuale Auslastung der Wohnung " + (wohnungsnummer + 1) + ": " + ergebnis + "%");
+    System.out.println("\nAuslastung der Wohnung " + (wohnungsnummer + 1) + ": " + ergebnis + "%");
     }
 
   public static void ausallewohnungen(int datum[][]) {  //Auslastung aller Wohnung in Prozent
@@ -34,7 +34,7 @@ public class Statistiken {
       }
     }
     ergebnis = 100 * zaehler / (365 * datum.length);    //mit datum.length, da die Ergebnisse von allen 10 Wohnungen addiert wurden
-    System.out.println("Prozentuale Auslastung aller Wohnungen: " + ergebnis + "%");
+    System.out.print("Gesamtauslastung aller Wohnungen: " + ergebnis + "%");
   }
 
   public static void eineinewohnung(int datum[][], double wohnung[][]) { //Einnahmen einer Wohnung innerhalb von einem Jahr

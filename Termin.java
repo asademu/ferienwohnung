@@ -169,7 +169,7 @@ public class Termin {
       }
     } while (date == false);
 
-    System.out.println("Die gewählte Wohnung ist verfügbar.");
+    System.out.println("Die gewählte Wohnung ist verfügbar.\n");
 
     do {                              //Eingabe der Kundennummer zu Buchungszwecken
       date = true;
@@ -199,7 +199,7 @@ public class Termin {
     if (katag2 - katag >= 7) {  //wenn die Tagesspanne zwischen Start- und Enddatum 7 Tage oder länger ist, werden 10% Rabatt berechnet
       kosten = kosten * 90 / 100;
     }
-    System.out.println("Die Kosten betragen " + kosten + " Euro");
+    System.out.println("\nDie Kosten betragen " + kosten + " Euro.");
   }
 
   public static void verfuegbarDatum(int belegung[][], int KT, int KM, int KD) {  //reine Verfügbarkeitsprüfung nach Datumeingabe
